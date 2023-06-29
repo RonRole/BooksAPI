@@ -1,0 +1,58 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mysql
+    volumes:
+      - ./api:/app
+    ports:
+      - "8080:8080"
+    environment:
+      ORG_GRADLE_PROJECT_mysqlUrl: jdbc:mysql://mysql:3306/db
+      ORG_GRADLE_PROJECT_mysqlTestUrl: jdbc:mysql://mysql-test:3306/db
+      ORG_GRADLE_PROJECT_mysqlUser: user
+      ORG_GRADLE_PROJECT_mysqlPassword: password
+    networks:
+      - mysql-network
+    tty: true
+
+  mysql:
+    image: mysql:8
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    restart: always
+    networks:
+      - mysql-network
+
+  mysql-cli:
+    image: mysql:8
+    networks:
+      - mysql-network
+    command: mysql -hmysql -uuser -ppassword db
+
+  mysql-test:
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    restart: always
+    networks:
+      - mysql-network
+
+networks:
+  mysql-network:
+    driver: bridge

@@ -1,0 +1,7 @@
+FROM eclipse-temurin:17
+
+ENV APP_ROOT /app
+
+WORKDIR $APP_ROOT
+
+COPY . $APP_ROOT
