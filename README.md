@@ -18,7 +18,6 @@ API仕様は、「REAME_API.md」のご参照をお願いいたします。
 1. apiのコンテナに入る
    ~~~bash
    docker-compose exec api bash
-   #=> bash-4.4#
    ~~~
 1. マイグレーション実行
    ~~~bash
@@ -49,7 +48,6 @@ API仕様は、「REAME_API.md」のご参照をお願いいたします。
 1. apiのコンテナに入る
    ~~~bash
    docker-compose exec api bash
-   #=> bash-4.4#
    ~~~
 1. テスト用mysqlコンテナにマイグレーション実行
    ~~~bash
